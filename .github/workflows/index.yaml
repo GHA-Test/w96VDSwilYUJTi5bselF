@@ -1,0 +1,20 @@
+name: Create Repo
+on: push
+
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT }}
+  GITHUB_FOLDER_NAME: temp
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout-github
+        uses: actions/checkout@v2
+        with:
+          path: ${{ env.GITHUB_FOLDER_NAME }}
+      - name: Terraform
+        run: |
+          cd ${{ env.GITHUB_FOLDER_NAME }}
+          terraform init
+          terraform apply --auto-approve
